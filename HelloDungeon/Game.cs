@@ -8,31 +8,83 @@ using System.Threading.Tasks;
 
 namespace HelloDungeon 
 {
+    //Makes the variables for enemy stats
+    public struct Enemy
+    {
+        public string Handedness;
+        public float MaxHealth;
+        public float Health;
+        public float MaxMana;
+        public float Mana;
+        public float MaxDamage;
+        public float Damage;
+        public float Defense;
+        public float MaxDefense;
+        public int Gold;
+
+        public Enemy(
+            string Handedness,
+            float MaxHealth,
+            float Health,
+            float MaxMana,
+            float Mana,
+            float MaxDamage,
+            float Damage,
+            float MaxDefense,
+            float Defense,
+            int Gold
+            )
+        {
+            this.Handedness = Handedness;
+            this.MaxHealth = MaxHealth;
+            this.Health = Health;
+            this.MaxMana = MaxMana;
+            this.Mana = Mana;
+            this.MaxDamage = MaxDamage;
+            this.Damage = Damage;
+            this.MaxDefense = MaxDefense;
+            this.Defense = Defense;
+            this.Gold = Gold;
+
+        }
+    }
+
     internal class Game
     {
-        public static string playerHandedness;
         public static int userChoice;
-        public static float maxPlayerHealth;
+        public static string playerName;
+
+        //Makes the variables for the player's stats
+        public static string playerHandedness;
+        public static float playerMaxHealth;
         public static float playerHealth;
-        public static float maxPlayerMana;
+        public static float playerMaxMana;
         public static float playerMana;
-        public static float maxPlayerDamage;
+        public static float playerMaxDamage;
         public static float playerDamage;
+        public static float playerMaxDefense;
+        public static float playerDefense;
+        public static int playerPotions;
+        public static int playerMaxPotions;
         public static int playerGold;
 
-        // Make a function that displays players current stats
+        //Make a function that displays players current stats
         public static void DisplayPlayerStats()
         {
             Console.Clear();
+            Console.WriteLine(playerName + "'s stats");
+            Console.WriteLine("-------------------");
             Console.WriteLine("Handedness:" + Game.playerHandedness);
-            Console.WriteLine("Health:" + Game.playerHealth + "/" + Game.maxPlayerHealth);
-            Console.WriteLine("Damage:" + Game.playerDamage + "/" + Game.maxPlayerDamage);
-            Console.WriteLine("Mana:" + Game.playerMana + "/" + Game.maxPlayerMana);
+            Console.WriteLine("Health:" + Game.playerHealth + "/" + Game.playerMaxHealth);
+            Console.WriteLine("Mana:" + Game.playerMana + "/" + Game.playerMaxMana);
+            Console.WriteLine("Damage:" + Game.playerDamage + "/" + Game.playerMaxDamage);
+            Console.WriteLine("Defense:" + Game.playerDefense + "/" + Game.playerMaxDefense);
+            Console.WriteLine("Potions:" + Game.playerPotions + "/" + Game.playerMaxPotions);
             Console.WriteLine("Gold:" + Game.playerGold);
             Console.WriteLine();
         }
         
-        // Make a function for a two choice option
+        //Make a function for a two choice option
         public static int GetTwoOptionInput(string description, string option1, string option2)
         {
             string input = "";
@@ -77,7 +129,7 @@ namespace HelloDungeon
             return inputRecieved;
         }
 
-        // Make a function for a three choice option
+        //Make a function for a three choice option
         public static int GetThreeOptionInput(string description, string option1, string option2, string option3)
         {
             string input = "";
@@ -130,15 +182,74 @@ namespace HelloDungeon
             return inputRecieved;
         }
 
+        //Make a function that runs when a battle starts
+        public static void PlayerGetsIntoBattle(Enemy Badguy)
+        {
+            while (nobodyIsDead == true)
+            {
+                bool nobodyIsDead = true;
+                float playerTrueDamage = playerDamage -= Badguy.Defense;
+                float playerMagicDamage = playerDamage*2;
+                float enemyTrueDamage = playerDamage -= playerDefense;
+                float enemyMagicDamage = playerDamage * 2;
+
+                Game.DisplayPlayerStats();
+                Console.WriteLine();
+
+                Console.WriteLine("Enemy's stats");
+                Console.WriteLine("-------------------");
+                Console.WriteLine("Handedness:" + Badguy.Handedness);
+                Console.WriteLine("Health:" + Badguy.Health + "/" + Badguy.MaxHealth);
+                Console.WriteLine("Damage:" + Badguy.Damage + "/" + Badguy.MaxDamage);
+                Console.WriteLine("Defense:" + Badguy.Defense + "/" + Badguy.MaxDefense);
+                Console.WriteLine("Mana:" + Badguy.Mana + "/" + Badguy.MaxMana);
+                Console.WriteLine("Gold:" + Badguy.Gold);
+                Console.WriteLine();
+                userChoice = GetThreeOptionInput("What would you like to do?", "1.Sword Swing", "2.Magic Missle(10Mana)", "3.Healing Potion?");
+                //Player attacks with Sword Swing
+                if (userChoice == 1)
+                {
+                    Badguy.Health -= playerTrueDamage; //Deal trueDamage
+                    Console.WriteLine("You delt " + playerTrueDamage +" to the enemy!");
+                    userChoice = 0; //Reset the user choice
+                }
+                //Player attacks with Magic Missle
+                else if (userChoice == 2)
+                {
+                    Badguy.Health -= playerMagicDamage; //Deal trueDamage
+                    Console.WriteLine("You delt " + playerMagicDamage + " to the enemy!");
+                    userChoice = 0; //Reset the user choice
+                }
+                //Player drinks a healing potion
+                else if (userChoice == 3)
+                {
+                    //FINISH HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+                    userChoice = 0; //Reset the user choice
+                }
+
+                //Enemy attacks
+                if (Badguy.Health > 0 && playerHealth > 0)
+                {
+                    playerHealth -= playerTrueDamage; //Deal trueDamage
+                    Console.WriteLine("The enemy dealt " + playerTrueDamage + " to you!");
+                }
+
+                //End the battle if someone dies
+                if (Badguy.Health == 0 || playerHealth == 0)
+                {
+                    nobodyIsDead = false;
+                }
+            }
+        }
 
         public void Run()
         {
             //Get the players name
             Console.WriteLine("What is your name?");
-            string playerName = Console.ReadLine();
+            playerName = Console.ReadLine();
             Console.Clear();
 
-            // Get playerHandedness
+            //Get playerHandedness
             userChoice = GetThreeOptionInput("Ok " + playerName + " what is your dominant hand?", "Left Handed", "Right Handed", "Ambidexterous");            
             //Set player handedness to left
             if (userChoice == 1)
@@ -147,27 +258,31 @@ namespace HelloDungeon
                 userChoice = 0; //Reset the user choice
             }
             //Set player handedness to right
-            if (userChoice == 2)
+            else if (userChoice == 2)
             {
                 playerHandedness = ("Right");
                 userChoice = 0; //Reset the user choice
             }
             //Set player handedness to ambidexterous
-            if (userChoice == 3)
+            else if (userChoice == 3)
             {
                 playerHandedness = ("Ambidexterous");
                 userChoice = 0; //Reset the user choice
             }
 
-            // Set the players stats
-            maxPlayerHealth = 20.0f;
-            playerHealth = 20.0f;
-            maxPlayerMana = 50.0f;
+            //Set the players stats
+            playerMaxHealth = 20.0f;
+            playerHealth = 20;
+            playerMaxMana = 50.0f;
             playerMana = 50.0f;
-            maxPlayerDamage = 5.0f;
+            playerMaxDamage = 5.0f;
             playerDamage = 5.0f;
+            playerMaxDefense = 0.0f;
+            playerDefense = 0.0f;
+            playerPotions = 3;
+            playerMaxPotions = 3;
             playerGold = 50;
-            // Do certian things to the players stats if their name is something specific
+            //Do certian things to the players stats if their name is something specific
             if (playerName == "Bobligiferous The Twost")
             {
                 playerGold = 500;
@@ -175,6 +290,12 @@ namespace HelloDungeon
             if (playerName == "Boblious" || playerName == "boblious")
             {
                 playerDamage = 20;
+            }
+            //Subtract player damage by 1 if they are Ambidexterious 
+            if (playerHandedness == ("Ambidexterous"))
+            {
+                playerDamage -= 1;
+                playerMaxDamage -= 1;
             }
 
             //Intro thingy

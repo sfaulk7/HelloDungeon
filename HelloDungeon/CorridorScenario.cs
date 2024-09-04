@@ -66,7 +66,7 @@ namespace HelloDungeon
                     {
                         Game.playerDamage -= 2;
                         Game.playerHealth -= 3;
-                        Console.WriteLine("(-3 Health) (-1 Attack)");
+                        Console.WriteLine("(-3 Health) (-2 Attack)");
                     }
 
                     //Only subtract from the players health if they aren't right handed
