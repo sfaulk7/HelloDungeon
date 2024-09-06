@@ -329,7 +329,7 @@ namespace HelloDungeon
                 playerMaxDamage -= 1;
             }
 
-            //Intro thingy
+            //Actually start the game intro thingy
             Console.Clear();
             Console.WriteLine("HelloDungeon says hi, " + playerName + ".");
             Console.WriteLine("Enter to continue...");
@@ -355,9 +355,8 @@ namespace HelloDungeon
 
             Game.DisplayPlayerStats();
             Console.WriteLine("END OF CORRIDOR AND STATUE SCENARIOS");
-
-            
-
+            Console.WriteLine("Enter to continue...");
+            Console.ReadLine();
         }
     }
 }
