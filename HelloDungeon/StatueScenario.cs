@@ -53,7 +53,7 @@ namespace HelloDungeon
                     Console.WriteLine("Enter to continue...");
                     Console.ReadLine();
                     Console.Clear();
-                    Enemy statue = new Enemy(Handedness: "Right", MaxHealth: 30, Health: 30, MaxMana: 0, Mana:  0, MaxDamage:  8, Damage:  8, MaxDefense:  1, Defense:  1, Gold:  150) ;
+                    Enemy statue = new Enemy(Name: "The King Arthur Statue", Handedness: "Right", MaxHealth: 30, Health: 30, MaxMana: 0, Mana:  0, MaxDamage:  8, Damage:  8, MaxDefense:  1, Defense:  1, Gold:  150) ;
                     Game.PlayerGetsIntoBattle(statue);
                 }
 

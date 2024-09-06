@@ -9,8 +9,11 @@ using System.Threading.Tasks;
 namespace HelloDungeon 
 {
     //Makes the variables for enemy stats
+    //Format for Enemies:
+    //Enemy [Enemy Name Variable] = new Enemy(Name: "", Handedness: "", MaxHealth: 0, Health: 0, MaxMana: 0, Mana: 0, MaxDamage: 0, Damage: 0, MaxDefense: 0, Defense: 0, Gold: 0);
     public struct Enemy
     {
+        public string Name;
         public string Handedness;
         public float MaxHealth;
         public float Health;
@@ -23,6 +26,7 @@ namespace HelloDungeon
         public int Gold;
 
         public Enemy(
+            string Name,
             string Handedness,
             float MaxHealth,
             float Health,
@@ -35,6 +39,7 @@ namespace HelloDungeon
             int Gold
             )
         {
+            this. Name = Name;
             this.Handedness = Handedness;
             this.MaxHealth = MaxHealth;
             this.Health = Health;
@@ -83,7 +88,7 @@ namespace HelloDungeon
             Console.WriteLine("Gold:" + Game.playerGold);
             Console.WriteLine();
         }
-        
+
         //Make a function for a two choice option
         public static int GetTwoOptionInput(string description, string option1, string option2)
         {
@@ -185,18 +190,24 @@ namespace HelloDungeon
         //Make a function that runs when a battle starts
         public static void PlayerGetsIntoBattle(Enemy Badguy)
         {
+            bool playerLost = false;
+            bool nobodyIsDead = true;
             while (nobodyIsDead == true)
             {
-                bool nobodyIsDead = true;
-                float playerTrueDamage = playerDamage -= Badguy.Defense;
-                float playerMagicDamage = playerDamage*2;
-                float enemyTrueDamage = playerDamage -= playerDefense;
+                //Define player and enemy basic attack
+                float playerTrueDamage = playerDamage - Badguy.Defense;
+                float enemyTrueDamage = Badguy.Damage - playerDefense;
+                //Define player and enemy magic attack
+                float playerMagicDamage = playerDamage * 2;
                 float enemyMagicDamage = playerDamage * 2;
+                //Define player potion use
+                float potionHealAmount = playerMaxHealth * .25f;
 
                 Game.DisplayPlayerStats();
                 Console.WriteLine();
 
-                Console.WriteLine("Enemy's stats");
+                //Display enemy stats
+                Console.WriteLine(Badguy.Name + "'s stats");
                 Console.WriteLine("-------------------");
                 Console.WriteLine("Handedness:" + Badguy.Handedness);
                 Console.WriteLine("Health:" + Badguy.Health + "/" + Badguy.MaxHealth);
@@ -205,41 +216,61 @@ namespace HelloDungeon
                 Console.WriteLine("Mana:" + Badguy.Mana + "/" + Badguy.MaxMana);
                 Console.WriteLine("Gold:" + Badguy.Gold);
                 Console.WriteLine();
-                userChoice = GetThreeOptionInput("What would you like to do?", "1.Sword Swing", "2.Magic Missle(10Mana)", "3.Healing Potion?");
+
+                userChoice = GetThreeOptionInput("What would you like to do?", "1.Sword Swing", "2.Magic Missle x2DMG(10Mana)", "3.Healing Potion(25% Max Health)");
                 //Player attacks with Sword Swing
                 if (userChoice == 1)
                 {
                     Badguy.Health -= playerTrueDamage; //Deal trueDamage
-                    Console.WriteLine("You delt " + playerTrueDamage +" to the enemy!");
+                    Console.WriteLine("You delt " + playerTrueDamage + " to " + Badguy.Name + "!");
                     userChoice = 0; //Reset the user choice
                 }
                 //Player attacks with Magic Missle
                 else if (userChoice == 2)
                 {
                     Badguy.Health -= playerMagicDamage; //Deal trueDamage
-                    Console.WriteLine("You delt " + playerMagicDamage + " to the enemy!");
+                    playerMana -= 10;
+                    Console.WriteLine("You delt " + playerMagicDamage + " to " + Badguy.Name + "!");
                     userChoice = 0; //Reset the user choice
                 }
                 //Player drinks a healing potion
                 else if (userChoice == 3)
                 {
-                    //FINISH HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+                    playerHealth += potionHealAmount;
+                    playerPotions -= 1;
+                    Console.WriteLine("You drank the potion and healed " + potionHealAmount + " health!");
                     userChoice = 0; //Reset the user choice
                 }
 
                 //Enemy attacks
                 if (Badguy.Health > 0 && playerHealth > 0)
                 {
-                    playerHealth -= playerTrueDamage; //Deal trueDamage
-                    Console.WriteLine("The enemy dealt " + playerTrueDamage + " to you!");
+                    playerHealth -= enemyTrueDamage; //Deal trueDamage
+                    Console.WriteLine(Badguy.Name + " dealt " + enemyTrueDamage + " to you!");
+                    Console.WriteLine("Enter to continue...");
+                    Console.ReadLine();
                 }
 
-                //End the battle if someone dies
-                if (Badguy.Health == 0 || playerHealth == 0)
+                //End the battle if the enemy dies
+                if (Badguy.Health <= 0 )
                 {
+                    Console.WriteLine("You won! " + Badguy.Name + " has been defeated.");
+                    Console.WriteLine("Enter to continue...");
+                    Console.ReadLine();
+                    nobodyIsDead = false;
+                }
+                //End the battle if the player dies
+                if (playerHealth <= 0)
+                {
+                    Console.WriteLine("You lost! " + Badguy.Name + " has defeated you.");
+                    Console.WriteLine("Game over");
+                    Console.WriteLine("Enter to exit...");
+                    Console.ReadLine();
+                    playerLost = true;
                     nobodyIsDead = false;
                 }
             }
+
         }
 
         public void Run()
