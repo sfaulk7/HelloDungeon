@@ -2,15 +2,10 @@
 {
     internal class Program
     {
-        public static bool playerIsDead = false;
         static void Main(string[] args)
         {
-            while (Program.playerIsDead == false)
-            {
-                Game game = new Game();
-                game.Run();
-            }
-            
+            Game game = new Game();
+            game.Run();
         }
     }
 }

@@ -42,7 +42,7 @@ namespace HelloDungeon
                     Console.WriteLine("");
                     Console.WriteLine("You attempt to pull the torch off the wall.");
                     Console.WriteLine("It comes off as you hear a click.");
-                    Console.WriteLine("The floor falls out under you and you are knocked unconcious upon landing.");
+                    Console.WriteLine("The floor falls out under you and you are knocked unconscious upon landing.");
                     Console.WriteLine("Enter to continue...");
                     Console.ReadLine();
                     Game.userChoice = 0; //Reset the user choice
@@ -107,6 +107,7 @@ namespace HelloDungeon
                     //Sends player to StatueScenario
                     StatueScenario statueScenario = new StatueScenario();
                     statueScenario.Run();
+                    break;
                 }
 
                 //Decreased i in the for loop to keep it looping if they dont choose a valid option
