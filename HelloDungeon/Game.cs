@@ -190,7 +190,6 @@ namespace HelloDungeon
         //Make a function that runs when a battle starts
         public static void PlayerGetsIntoBattle(Enemy Badguy)
         {
-            bool playerLost = false;
             bool nobodyIsDead = true;
             while (nobodyIsDead == true)
             {
@@ -266,11 +265,15 @@ namespace HelloDungeon
                     Console.WriteLine("Game over");
                     Console.WriteLine("Enter to exit...");
                     Console.ReadLine();
-                    playerLost = true;
+                    Program.playerIsDead = true;
                     nobodyIsDead = false;
+
+                    if (Program.playerIsDead == true)
+                    {
+                        break;
+                    }
                 }
             }
-
         }
 
         public void Run()
@@ -322,6 +325,11 @@ namespace HelloDungeon
             {
                 playerDamage = 20;
             }
+            if (playerName == "Sodakin")
+            {
+                playerPotions = 10;
+                playerMaxPotions = 10;
+            }
             //Subtract player damage by 1 if they are Ambidexterious 
             if (playerHandedness == ("Ambidexterous"))
             {
@@ -351,6 +359,7 @@ namespace HelloDungeon
                 StatueScenario statueScenario = new StatueScenario();
                 statueScenario.Run();
                 userChoice = 0; //Reset the user choice
+
             } //Send player to StatueScenario
 
             Game.DisplayPlayerStats();
