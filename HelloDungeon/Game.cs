@@ -5,6 +5,7 @@ using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace HelloDungeon 
 {
@@ -60,6 +61,7 @@ namespace HelloDungeon
     internal class Game
     {
         //Makes the important variables that keep the game running
+        Random randomNumber = new Random();
         public static int userChoice;
         public static int currentArea;
         public static bool gameOver;
@@ -134,6 +136,7 @@ namespace HelloDungeon
             if (playerName == "Boblious" || playerName == "boblious")
             {
                 playerDamage = 20;
+                playerMaxDamage = 20;
             }
             if (playerName == "Sodakin")
             {
@@ -264,24 +267,28 @@ namespace HelloDungeon
         }
 
         //Make a function that runs when a battle starts
-        public static void PlayerGetsIntoBattle(Enemy Badguy)
+        public static void PlayerGetsIntoBattle(Enemy Badguy1)
         {
-            bool nobodyIsDead = true;
-            while (nobodyIsDead == true)
+            //Define player and enemies basic attack
+            float playerTrueDamage1 = playerDamage - Badguy1.Defense;
+            float enemy1TrueDamage = Badguy1.Damage - playerDefense;
+            //Define player and enemies magic attack
+            float playerMagicDamage = playerDamage * 2;
+            float enemy1MagicDamage = Badguy1.Damage * 2;
+            //Define player potion use
+            float potionHealAmount = playerMaxHealth * .25f;
+
+            //Sets Badguy1's stats to be equal to their max stats in case of randomNumber being used
+            if (Badguy1.Health != Badguy1.MaxHealth || Badguy1.Damage != Badguy1.MaxDamage || Badguy1.Defense != Badguy1.MaxDefense)
             {
-                //Define player and enemy basic attack
-                float playerTrueDamage = playerDamage - Badguy.Defense;
-                float enemyTrueDamage = Badguy.Damage - playerDefense;
-                //Define player and enemy magic attack
-                float playerMagicDamage = playerDamage * 2;
-                float enemyMagicDamage = playerDamage * 2;
-                //Define player potion use
-                float potionHealAmount = playerMaxHealth * .25f;
+                Badguy1.Health = Badguy1.MaxHealth;
+                Badguy1.Damage = Badguy1.MaxDamage;
+                Badguy1.Defense = Badguy1.MaxDefense;
+            }
 
-                Game.DisplayPlayerStats();
-                Console.WriteLine();
-
-                //Display enemy stats
+            //Make a funciton that displays the enemy's stats
+            void DisplayEnemyStats(Enemy Badguy)
+            {
                 Console.WriteLine(Badguy.Name + "'s stats");
                 Console.WriteLine("-------------------");
                 Console.WriteLine("Handedness:" + Badguy.Handedness);
@@ -291,21 +298,29 @@ namespace HelloDungeon
                 Console.WriteLine("Mana:" + Badguy.Mana + "/" + Badguy.MaxMana);
                 Console.WriteLine("Gold:" + Badguy.Gold);
                 Console.WriteLine();
+            }
+            //Make a function that runs when the player attacks an enemy
+            void PlayerAttacksEnemy(ref Enemy Attacked)
+            {
+                DisplayPlayerStats();
+                Console.WriteLine();
+
+                DisplayEnemyStats(Attacked);
 
                 userChoice = GetThreeOptionInput("What would you like to do?", "1.Sword Swing", "2.Magic Missle x2DMG(10Mana)", "3.Healing Potion(25% Max Health)");
                 //Player attacks with Sword Swing
                 if (userChoice == 1)
                 {
-                    Badguy.Health -= playerTrueDamage; //Deal trueDamage
-                    Console.WriteLine("You delt " + playerTrueDamage + " to " + Badguy.Name + "!");
+                    Attacked.Health -= playerTrueDamage1; //Deal trueDamage
+                    Console.WriteLine("You delt " + playerTrueDamage1 + " to " + Attacked.Name + "!");
                     userChoice = 0; //Reset the user choice
                 }
                 //Player attacks with Magic Missle
                 else if (userChoice == 2)
                 {
-                    Badguy.Health -= playerMagicDamage; //Deal trueDamage
+                    Attacked.Health -= playerMagicDamage; //Deal trueDamage
                     playerMana -= 10;
-                    Console.WriteLine("You delt " + playerMagicDamage + " to " + Badguy.Name + "!");
+                    Console.WriteLine("You delt " + playerMagicDamage + " to " + Attacked.Name + "!");
                     userChoice = 0; //Reset the user choice
                 }
                 //Player drinks a healing potion
@@ -316,29 +331,42 @@ namespace HelloDungeon
                     Console.WriteLine("You drank the potion and healed " + potionHealAmount + " health!");
                     userChoice = 0; //Reset the user choice
                 }
+            }
+            //Make a function that runs when an enemy attacks the player
+            void EnemyAttacksPlayer(Enemy Attacker)
+            {
+                float attackerTrueDamage = Attacker.Damage -= Game.playerDefense;
+                playerHealth -= attackerTrueDamage;
+                Console.WriteLine(Attacker.Name + " dealt " + attackerTrueDamage + " to you!");
+                Console.WriteLine();
+            }
+            
+            bool nobodyIsDead = true;
+            while (nobodyIsDead == true)
+            {
+                Game.DisplayPlayerStats();
+                Console.WriteLine();
 
-                //Enemy attacks
-                if (Badguy.Health > 0 && playerHealth > 0)
-                {
-                    playerHealth -= enemyTrueDamage; //Deal trueDamage
-                    Console.WriteLine(Badguy.Name + " dealt " + enemyTrueDamage + " to you!");
-                    Console.WriteLine("Enter to continue...");
-                    Console.ReadLine();
-                }
+                DisplayEnemyStats(Badguy1);
+
+                PlayerAttacksEnemy(ref Badguy1);
+
+                EnemyAttacksPlayer(Badguy1);
+                Console.WriteLine("Enter to continue...");
+                Console.ReadLine();
 
                 //End the battle if the enemy dies
-                if (Badguy.Health <= 0 )
+                if (Badguy1.Health <= 0)
                 {
-                    
-                    Console.WriteLine("You won! " + Badguy.Name + " has been defeated.");
+                    Console.WriteLine("You won! The enemy " + Badguy1.Name + " has been defeated.");
 
                     //Give the player the Gold from the enemy
-                    playerGold += Badguy.Gold;
-                    Console.WriteLine(Badguy.Name + " dropped " + Badguy.Gold + " gold!");
+                    playerGold += Badguy1.Gold;
+                    Console.WriteLine(Badguy1.Name + " dropped " + Badguy1.Gold + " gold!");
 
                     //Give the player the HealBarPoints from the enemy
-                    playerHealBar += Badguy.HealBarPoints;
-                    Console.WriteLine("Your HealBar has increased by " + Badguy.HealBarPoints);
+                    playerHealBar += Badguy1.HealBarPoints;
+                    Console.WriteLine(Badguy1.Name + " Increased your HealBar has increased by " + Badguy1.HealBarPoints);
                     //Apply the HealBar effect if the HealBar was maxed out
                     if (playerHealBar >= playerMaxHealBar)
                     {
@@ -348,6 +376,7 @@ namespace HelloDungeon
                         playerMana = playerMaxMana;
                         playerDamage = playerMaxDamage;
                         playerDefense = playerMaxDefense;
+                        playerHealBar = 0.0f;
                     }
 
                     Console.WriteLine("Enter to continue...");
@@ -358,7 +387,7 @@ namespace HelloDungeon
                 //End the battle if the player dies
                 if (playerHealth <= 0)
                 {
-                    Console.WriteLine("You lost! " + Badguy.Name + " has defeated you.");
+                    Console.WriteLine("You lost! " + Badguy1.Name + " has defeated you.");
                     Console.WriteLine("Game over");
                     Console.WriteLine("Enter to exit...");
                     Console.ReadLine();
@@ -367,18 +396,224 @@ namespace HelloDungeon
                     break;
                 }
             }
-           
-            
         }
+        //Make a function that runs when the battle has two enemies
+        public static void PlayerGetsIntoBattle(Enemy Badguy1, Enemy Badguy2)
+        {
+            //Define player and enemies Defense
+            float enemy1TrueDamage = Badguy1.Damage - playerDefense;
+            float enemy2TrueDamage = Badguy2.Damage - playerDefense;
+            //Define player and enemies magic attack
+            float playerMagicDamage = playerDamage * 2;
+            float enemy1MagicDamage = Badguy1.Damage * 2;
+            float enemy2MagicDamage = Badguy2.Damage * 2;
+            //Define player potion use
+            float potionHealAmount = playerMaxHealth * .25f;
 
+            //Sets Badguy1's stats to be equal to their max stats in case of randomNumber being used
+            if (Badguy1.Health != Badguy1.MaxHealth || Badguy1.Damage != Badguy1.MaxDamage || Badguy1.Defense != Badguy1.MaxDefense)
+            {
+                Badguy1.Health = Badguy1.MaxHealth;
+                Badguy1.Damage = Badguy1.MaxDamage;
+                Badguy1.Defense = Badguy1.MaxDefense;
+            }
+            //Sets Badguy2's stats to be equal to their max stats in case of randomNumber being used
+            if (Badguy2.Health != Badguy2.MaxHealth || Badguy2.Damage != Badguy2.MaxDamage || Badguy2.Defense != Badguy2.MaxDefense)
+            {
+                Badguy2.Health = Badguy2.MaxHealth;
+                Badguy2.Damage = Badguy2.MaxDamage;
+                Badguy2.Defense = Badguy2.MaxDefense;
+            }
+            //Gives each enemy a letter to differenciate between them if needed
+            if (Badguy1.Name == Badguy2.Name)
+            {
+                Badguy1.Name = Badguy1.Name + "A";
+                Badguy2.Name = Badguy2.Name + "B";
+            }
+
+            //Make a funciton that displays the enemy's stats
+            void DisplayEnemyStats(Enemy Badguy)
+            {
+                Console.WriteLine(Badguy.Name + "'s stats");
+                Console.WriteLine("-------------------");
+                Console.WriteLine("Handedness:" + Badguy.Handedness);
+                Console.WriteLine("Health:" + Badguy.Health + "/" + Badguy.MaxHealth);
+                Console.WriteLine("Damage:" + Badguy.Damage + "/" + Badguy.MaxDamage);
+                Console.WriteLine("Defense:" + Badguy.Defense + "/" + Badguy.MaxDefense);
+                Console.WriteLine("Mana:" + Badguy.Mana + "/" + Badguy.MaxMana);
+                Console.WriteLine("Gold:" + Badguy.Gold);
+                Console.WriteLine();
+            }
+            //Make a function that runs when the player attacks an enemy
+            void PlayerAttacksEnemy(ref Enemy Attacked)
+            {
+                DisplayPlayerStats();
+                Console.WriteLine();
+
+                DisplayEnemyStats(Attacked);
+
+                userChoice = GetThreeOptionInput("What would you like to do?", "1.Sword Swing", "2.Magic Missle x2DMG(10Mana)", "3.Healing Potion(25% Max Health)");
+                //Player attacks with Sword Swing
+                if (userChoice == 1)
+                {
+                    float playerTrueDamage = Game.playerDamage - Attacked.Defense;
+                    Attacked.Health -= playerTrueDamage; //Deal trueDamage
+                    Console.WriteLine("You delt " + playerTrueDamage + " to " + Attacked.Name + "!");
+                    userChoice = 0; //Reset the user choice
+                }
+                //Player attacks with Magic Missle
+                else if (userChoice == 2)
+                {
+                    Attacked.Health -= playerMagicDamage; //Deal trueDamage
+                    playerMana -= 10;
+                    Console.WriteLine("You delt " + playerMagicDamage + " to " + Attacked.Name + "!");
+                    userChoice = 0; //Reset the user choice
+                }
+                //Player drinks a healing potion
+                else if (userChoice == 3)
+                {
+                    playerHealth += potionHealAmount;
+                    playerPotions -= 1;
+                    Console.WriteLine("You drank the potion and healed " + potionHealAmount + " health!");
+                    userChoice = 0; //Reset the user choice
+                }
+            }
+            //Make a function that runs when an enemy attacks the player
+            void EnemyAttacksPlayer(Enemy Attacker)
+            {
+                float attackerTrueDamage = Attacker.Damage -= Game.playerDefense;
+                playerHealth -= attackerTrueDamage;
+                Console.WriteLine(Attacker.Name + " dealt " + attackerTrueDamage + " to you!");
+                Console.WriteLine();
+            }
+            
+            bool nobodyIsDead = true;
+            while (nobodyIsDead == true)
+            {
+                Game.DisplayPlayerStats();
+                Console.WriteLine();
+
+                //Display enemy stats if enemy is alive
+                if (Badguy1.Health > 0)
+                {
+                    DisplayEnemyStats(Badguy1);
+                }
+                if (Badguy2.Health > 0)
+                {
+                    DisplayEnemyStats(Badguy2);
+                }
+
+                if (Badguy1.Health > 0 && Badguy2.Health > 0)
+                {
+                    userChoice = GetTwoOptionInput("Who would you like to attack?", "1. " + Badguy1.Name, "2. " + Badguy2.Name);
+                } // BADGUY1 IS BUGGED FOR SOME REASON FIX IT
+                //If the player attacks enemy1
+                if (userChoice == 1 || Badguy2.Health <= 0)
+                {
+                    PlayerAttacksEnemy(ref Badguy1);
+                }
+                //If the player attacks enemy2
+                if (userChoice == 2 || Badguy1.Health <= 0)
+                {
+                    PlayerAttacksEnemy(ref Badguy2);
+                }
+
+                //If the player defeats Badguy1
+                if (Badguy1.Health <= 0)
+                {
+                    Console.WriteLine("You defeated " + Badguy1.Name + "!");
+                    Console.WriteLine("Enter to continue...");
+                    Console.ReadLine();
+                }
+                //If the player defeats Badguy2
+                if (Badguy2.Health <= 0)
+                {
+                    Console.WriteLine("You defeated " + Badguy2.Name + "!");
+                    Console.WriteLine("Enter to continue...");
+                    Console.ReadLine();
+                }
+
+                //Both enemies attack if everone is alive (Including the player)
+                if (Badguy1.Health > 0 && Badguy2.Health > 0 && playerHealth > 0)
+                {
+                    EnemyAttacksPlayer(Badguy1);
+                    EnemyAttacksPlayer(Badguy2);
+                    Console.WriteLine("Enter to continue...");
+                    Console.ReadLine();
+                }
+                //If only Badguy2 is dead so Badguy1 Is the only attacker
+                if (Badguy1.Health > 0 && Badguy2.Health <= 0 && playerHealth > 0)
+                {
+                    EnemyAttacksPlayer(Badguy1);
+                    Console.WriteLine("Enter to continue...");
+                    Console.ReadLine();
+                }
+                //If only Badguy1 is dead so Badguy2 Is the only attacker
+                if (Badguy2.Health > 0 && Badguy1.Health <= 0 && playerHealth > 0)
+                {
+                    EnemyAttacksPlayer(Badguy1);
+                    Console.WriteLine("Enter to continue...");
+                    Console.ReadLine();
+                }
+
+
+                //End the battle if both of the enemies dies
+                if (Badguy1.Health <= 0 && Badguy2.Health <= 0)
+                {
+                    Console.WriteLine("You won! The enemies " + Badguy1.Name + " and " + Badguy2.Name + " has been defeated.");
+
+                    //Give the player the Gold from the enemy
+                    playerGold += Badguy1.Gold;
+                    Console.WriteLine(Badguy1.Name + " dropped " + Badguy1.Gold + " gold!");
+                    playerGold += Badguy2.Gold;
+                    Console.WriteLine(Badguy2.Name + " dropped " + Badguy2.Gold + " gold!");
+
+                    //Give the player the HealBarPoints from the enemy
+                    playerHealBar += Badguy1.HealBarPoints;
+                    playerHealBar += Badguy2.HealBarPoints;
+                    Console.WriteLine(Badguy1.Name + " Increased your HealBar has increased by " + Badguy1.HealBarPoints);
+                    Console.WriteLine(Badguy2.Name + " Increased your HealBar has increased by " + Badguy2.HealBarPoints);
+                    //Apply the HealBar effect if the HealBar was maxed out
+                    if (playerHealBar >= playerMaxHealBar)
+                    {
+                        Console.WriteLine("Your HealBar is maxed!");
+                        Console.WriteLine("You have healed to full health and mana along with regaining any lost damage and defense!");
+                        playerHealth = playerMaxHealth;
+                        playerMana = playerMaxMana;
+                        playerDamage = playerMaxDamage;
+                        playerDefense = playerMaxDefense;
+                        playerHealBar = 0.0f;
+                    }
+
+                    Console.WriteLine("Enter to continue...");
+                    Console.ReadLine();
+                    Game.playerWonBattle = true;
+                    nobodyIsDead = false;
+                }
+                //End the battle if the player dies
+                if (playerHealth <= 0)
+                {
+                    Console.WriteLine("You lost! " + Badguy1.Name + " and " + Badguy2.Name + " has defeated you.");
+                    Console.WriteLine("Game over");
+                    Console.WriteLine("Enter to exit...");
+                    Console.ReadLine();
+                    Game.playerIsDead = true;
+                    nobodyIsDead = false;
+                    break;
+                }
+            }
+        }
+        
 
         public void Run()
         {
+            
             DefinePlayerStats();
             Game.currentArea = 0;
             Console.WriteLine("HelloDungeon says Hello, " + Game.playerName + ".");
             Console.WriteLine("Enter to continue...");
             Console.ReadLine();
+            //Keeps the game loop
             while (Game.gameOver == false)
             {
                 //Area 1 Statue and Corridor
@@ -409,11 +644,35 @@ namespace HelloDungeon
                 {
                     Game.DisplayPlayerStats();
                     Console.WriteLine("After a while you awake again");
-                    Console.WriteLine("You look around ");
+                    Console.WriteLine("You look around");
                     Console.ReadLine();
 
                     Game.DisplayPlayerStats();
-                    Console.WriteLine("");
+                    Console.WriteLine("Unlike before this area is well lit");
+                    Console.WriteLine("You can see a group of goblins");
+                    Console.ReadKey();
+                    Enemy goblin = new Enemy(Name: "Goblin", Handedness: "Left", MaxHealth: randomNumber.Next(8, 12), Health: 0, MaxMana: 0, Mana: 0, MaxDamage: randomNumber.Next(4, 6), Damage: 0, MaxDefense: randomNumber.Next(0, 1), Defense: 0, HealBarPoints: randomNumber.Next(3, 6), Gold: randomNumber.Next(47, 86));
+                    PlayerGetsIntoBattle(goblin, goblin);
+                    Console.WriteLine("A chest appears in front of you");
+                    Console.WriteLine("It looks like its been through a lot");
+                    Console.WriteLine("Stabs and scratches all over, the goblins must have tryed to pry it open");
+                    userChoice = GetTwoOptionInput("Open it?", "1. Open", "2. Don't Open");
+                    //If the player opens the chest (its a mimic lol)
+                    if (userChoice == 1)
+                    {
+                        Enemy mimic = new Enemy(Name: "Mimic", Handedness: "Ambidexterious", MaxHealth: 100, Health: 72, MaxMana: 10, Mana: 10, MaxDamage: 5, Damage: 5, MaxDefense: 2, Defense: 2, HealBarPoints: 10, Gold: 1000);
+                        PlayerGetsIntoBattle(mimic);
+                        Console.WriteLine("There is nowhere else to go.");
+                        Console.WriteLine("You leave the dungeon.");
+                        Game.gameOver = true;
+                    }
+                    //If the player doesnt open the chest
+                    if (userChoice == 2)
+                    {
+                        Console.WriteLine("There is nowhere else to go.");
+                        Console.WriteLine("You leave the dungeon.");
+                        Game.gameOver = true;
+                    }
                 }
 
                 //If player dies give option to reset game
@@ -444,6 +703,10 @@ namespace HelloDungeon
                     Game.currentArea++;
                 }
             }
+
+            Console.WriteLine("GAME END");
+            Console.WriteLine("HelloDungeon says goodbye");
+            Console.ReadKey();
         }
     }
 }
