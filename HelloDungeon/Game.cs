@@ -89,6 +89,7 @@ namespace HelloDungeon
         public static int playerMaxPotions;
         public static int playerGold;
 
+
         /// <summary>
         /// Make all the Functions
         /// </summary>
@@ -359,6 +360,7 @@ namespace HelloDungeon
         //Make a function that runs when a battle starts
         public static void PlayerGetsIntoBattle(Enemy Badguy1)
         {
+            userChoice = 0;
             //Define player and enemies basic attack
             float playerTrueDamage1 = playerDamage - Badguy1.Defense;
             float enemy1TrueDamage = Badguy1.Damage - playerDefense;
@@ -546,6 +548,7 @@ namespace HelloDungeon
         //Make a function that runs when the battle has two enemies
         public static void PlayerGetsIntoBattle(Enemy Badguy1, Enemy Badguy2)
         {
+            userChoice = 0;
             //Define enemy alive variables
             bool badGuy1Defeated = false;
             bool badGuy2Defeated = false;
@@ -821,6 +824,7 @@ namespace HelloDungeon
         //Just a normal battle but removes the error prevention put in place for randomness
         public static void PlayerGetsIntoGlitchBattle(Enemy Badguy1)
         {
+            userChoice = 0;
             //Define player and enemies basic attack
             float playerTrueDamage1 = playerDamage - Badguy1.Defense;
             float enemy1TrueDamage = Badguy1.Damage - playerDefense;
@@ -1360,25 +1364,31 @@ namespace HelloDungeon
                     Console.ReadKey();
                     Enemy goblin = new Enemy(Name: "Goblin", Handedness: "Left", MaxHealth: randomNumber.Next(8, 12), Health: 0, MaxMana: 0, Mana: 0, MaxDamage: randomNumber.Next(4, 6), Damage: 0, MaxDefense: randomNumber.Next(0, 1), Defense: 0, HealBarPoints: randomNumber.Next(3, 6), Gold: randomNumber.Next(47, 86));
                     PlayerGetsIntoBattle(goblin, goblin);
-                    Console.WriteLine("A chest appears in front of you");
-                    Console.WriteLine("It looks like its been through a lot");
-                    Console.WriteLine("Stabs and scratches all over, the goblins must have tryed to pry it open");
-                    userChoice = GetTwoOptionInput("Open it?", "1. Open", "2. Don't Open");
-                    //If the player opens the chest (its a mimic lol)
-                    if (userChoice == 1)
+                    if (playerIsDead == false)
                     {
-                        Enemy mimic = new Enemy(Name: "Mimic", Handedness: "Ambidexterious", MaxHealth: 100, Health: 72, MaxMana: 10, Mana: 10, MaxDamage: 5, Damage: 5, MaxDefense: 2, Defense: 2, HealBarPoints: 10, Gold: 1000);
-                        PlayerGetsIntoBattle(mimic);
-                        Console.WriteLine("There is nowhere else to go.");
-                        Console.WriteLine("You leave the dungeon.");
-                        Game.gameOver = true;
-                    }
-                    //If the player doesnt open the chest
-                    if (userChoice == 2)
-                    {
-                        Console.WriteLine("There is nowhere else to go.");
-                        Console.WriteLine("You leave the dungeon.");
-                        Game.gameOver = true;
+                        Console.WriteLine("A chest appears in front of you");
+                        Console.WriteLine("It looks like its been through a lot");
+                        Console.WriteLine("Stabs and scratches all over, the goblins must have tryed to pry it open");
+                        userChoice = GetTwoOptionInput("Open it?", "1. Open", "2. Don't Open");
+                        //If the player opens the chest (its a mimic lol)
+                        if (userChoice == 1)
+                        {
+                            Enemy mimic = new Enemy(Name: "Mimic", Handedness: "Ambidexterious", MaxHealth: 100, Health: 72, MaxMana: 10, Mana: 10, MaxDamage: 5, Damage: 5, MaxDefense: 2, Defense: 2, HealBarPoints: 10, Gold: 1000);
+                            PlayerGetsIntoBattle(mimic);
+                            if (playerIsDead == false)
+                            {
+                                Console.WriteLine("There is nowhere else to go.");
+                                Console.WriteLine("You leave the dungeon.");
+                                Game.gameOver = true;
+                            }
+                        }
+                        //If the player doesnt open the chest
+                        if (userChoice == 2)
+                        {
+                            Console.WriteLine("There is nowhere else to go.");
+                            Console.WriteLine("You leave the dungeon.");
+                            Game.gameOver = true;
+                        }
                     }
                 }
 
