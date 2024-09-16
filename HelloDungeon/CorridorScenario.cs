@@ -11,7 +11,6 @@ namespace HelloDungeon
         public static bool tookTorch;
         public static bool returned;
 
-
         public void Run()
         {
             //Result of entering the corridor
