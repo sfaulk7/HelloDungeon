@@ -1002,7 +1002,7 @@ namespace HelloDungeon
             }
         }
 
-        //Make a function that allows the player to define their stats
+        //Make a function that allows the player to define their stats if they are in NG+
         public static void DefinePlayerStatsNGPlus()
         {
             int statChoice = 0;
