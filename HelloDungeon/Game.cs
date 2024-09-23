@@ -99,7 +99,7 @@ namespace HelloDungeon
             bool fakeCrashing = true;
             for (int i = 0; i < 3; i++)
             {
-                Console.WriteLine("\\C:\\Users\\s248007\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
+                Console.WriteLine("\\C:\\Users\\" + playerName + "\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
                 Console.WriteLine("To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.");
                 Console.WriteLine("Press any key to close this window . . .");
                 Console.ReadKey();
@@ -118,43 +118,43 @@ namespace HelloDungeon
                 Console.Clear();
                 if (i == 2)
                 {
-                    Console.WriteLine("\\C:\\Users\\s248007\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
+                    Console.WriteLine("\\C:\\Users\\" + playerName + "\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
                     Console.WriteLine("To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.");
                     Console.WriteLine("Press any key to close this window . . .");
                     Thread.Sleep(2500);
-                    Console.WriteLine("\\C:\\Users\\s248007\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
+                    Console.WriteLine("\\C:\\Users\\" + playerName + "\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
                     Console.WriteLine("To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.");
                     Console.WriteLine("Press any key to close this window . . .");
                     Thread.Sleep(2000);
-                    Console.WriteLine("\\C:\\Users\\s248007\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
+                    Console.WriteLine("\\C:\\Users\\" + playerName + "\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
                     Console.WriteLine("To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.");
                     Console.WriteLine("Press any key to close this window . . .");
                     Thread.Sleep(1500);
-                    Console.WriteLine("\\C:\\Users\\s248007\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
+                    Console.WriteLine("\\C:\\Users\\" + playerName + "\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
                     Console.WriteLine("To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.");
                     Console.WriteLine("Press any key to close this window . . .");
                     Thread.Sleep(1250);
-                    Console.WriteLine("\\C:\\Users\\s248007\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
+                    Console.WriteLine("\\C:\\Users\\" + playerName + "\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
                     Console.WriteLine("To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.");
                     Console.WriteLine("Press any key to close this window . . .");
                     Thread.Sleep(1000);
-                    Console.WriteLine("\\C:\\Users\\s248007\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
+                    Console.WriteLine("\\C:\\Users\\" + playerName + "\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
                     Console.WriteLine("To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.");
                     Console.WriteLine("Press any key to close this window . . .");
                     Thread.Sleep(100);
-                    Console.WriteLine("\\C:\\Users\\s248007\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
+                    Console.WriteLine("\\C:\\Users\\" + playerName + "\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
                     Console.WriteLine("To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.");
                     Console.WriteLine("Press any key to close this window . . .");
                     Thread.Sleep(100);
-                    Console.WriteLine("\\C:\\Users\\s248007\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
+                    Console.WriteLine("\\C:\\Users\\" + playerName + "\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
                     Console.WriteLine("To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.");
                     Console.WriteLine("Press any key to close this window . . .");
                     Thread.Sleep(100);
-                    Console.WriteLine("\\C:\\Users\\s248007\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
+                    Console.WriteLine("\\C:\\Users\\" + playerName + "\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
                     Console.WriteLine("To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.");
                     Console.WriteLine("Press any key to close this window . . .");
                     Thread.Sleep(100);
-                    Console.WriteLine("\\C:\\Users\\s248007\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
+                    Console.WriteLine("\\C:\\Users\\" + playerName + "\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
                     Console.WriteLine("To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.");
                     Console.WriteLine("Press any key to close this window . . .");
                     Thread.Sleep(100);
@@ -163,7 +163,7 @@ namespace HelloDungeon
             int fakeCrashingTime = 0;
             while (fakeCrashingTime != 1000)
             {
-                Console.WriteLine("\\C:\\Users\\s248007\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
+                Console.WriteLine("\\C:\\Users\\" + playerName + "\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
                 Console.WriteLine("To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.");
                 Console.WriteLine("Press any key to close this window . . .");
                 fakeCrashingTime += 1;
