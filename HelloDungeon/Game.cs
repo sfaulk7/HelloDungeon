@@ -1050,6 +1050,7 @@ namespace HelloDungeon
                         Thread.Sleep(2000);
                         Enemy RAM = new Enemy(Name: "Downloaded RAM", Handedness: "ERROR", MaxHealth: 0, Health: 666, MaxMana: 0, Mana: 666, MaxDamage: 0, Damage: 666, MaxDefense: 0, Defense: 666, HealBarPoints: 0, Gold: 0);
                         PlayerGetsIntoGlitchBattle(RAM);
+                        //makes GetNumber return 322122578
                         return 322122578;
                     }
                     // When the player chooses their stat count
@@ -1077,6 +1078,7 @@ namespace HelloDungeon
                         Thread.Sleep(2000);
                         Enemy RAM = new Enemy(Name: "Downloaded RAM", Handedness: "ERROR", MaxHealth: 0, Health: 666, MaxMana: 0, Mana: 666, MaxDamage: 0, Damage: 666, MaxDefense: 0, Defense: 666, HealBarPoints: 0, Gold: 0);
                         PlayerGetsIntoGlitchBattle(RAM);
+                        //makes GetNumber return 322122578
                         return 322122578;
                     }
 
@@ -1129,6 +1131,7 @@ namespace HelloDungeon
             Console.Clear();
 
             //Get playerHealBar Value
+            //statChoice will equal 322122578 after the player fights RAM, this is set to trigger all the returns in order to end the game
             statChoice = GetNumber("What would you like your starting HealBar to be? (TYPE A NUMBER)");
             if (statChoice == 322122578)
             {
@@ -1250,7 +1253,7 @@ namespace HelloDungeon
         }
 
         /// <summary>
-        /// Start game
+        /// Run game
         /// </summary>
         public void Run()
         {
@@ -1297,7 +1300,9 @@ namespace HelloDungeon
                     Console.WriteLine("Unlike before this area is well lit");
                     Console.WriteLine("You can see a group of goblins");
                     Console.ReadKey();
+                    //Creates goblin Enemy
                     Enemy goblin = new Enemy(Name: "Goblin", Handedness: "Left", MaxHealth: randomNumber.Next(8, 12), Health: 0, MaxMana: 0, Mana: 0, MaxDamage: randomNumber.Next(4, 6), Damage: 0, MaxDefense: randomNumber.Next(0, 1), Defense: 0, HealBarPoints: randomNumber.Next(3, 6), Gold: randomNumber.Next(47, 86));
+                    //Triggers the double goblin battle
                     PlayerGetsIntoBattle(goblin, goblin);
                     Console.WriteLine("A chest appears in front of you");
                     Console.WriteLine("It looks like its been through a lot");
@@ -1306,7 +1311,9 @@ namespace HelloDungeon
                     //If the player opens the chest (its a mimic lol)
                     if (userChoice == 1)
                     {
+                        //Creates the mimic Enemy
                         Enemy mimic = new Enemy(Name: "Mimic", Handedness: "Ambidexterious", MaxHealth: 100, Health: 72, MaxMana: 10, Mana: 10, MaxDamage: 5, Damage: 5, MaxDefense: 2, Defense: 2, HealBarPoints: 10, Gold: 1000);
+                        //Triggers mimic battle
                         PlayerGetsIntoBattle(mimic);
                         Console.WriteLine("There is nowhere else to go.");
                         Console.WriteLine("You leave the dungeon.");
