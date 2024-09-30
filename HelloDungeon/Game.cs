@@ -93,7 +93,7 @@ namespace HelloDungeon
         /// <summary>
         /// Make all the Functions
         /// </summary>
-        //Make a function that fakes a crash
+        //Make a function that fakes a really messed up crash
         static void FakeCrash()
         {
             bool fakeCrashing = true;
@@ -200,6 +200,17 @@ namespace HelloDungeon
                 playerOnNGPlus = true;
                 return;
             }
+            if (playerName == "ALLNAMES")
+            {
+                Console.WriteLine("Bobligiferous The Twost \nSets gold to 500\n" +
+                    "\nBoblious \nSets damage to 20\n" +
+                    "\nSodakin \nSets potions to 10\n" +
+                    "\nDrew or Funderburk \nTrolling\n" +
+                    "\nSkipToNG+ \nBelieve it or not; skips to new game plus\n");
+                Console.WriteLine("Press anything to restart...");
+                Console.ReadKey();
+                return;
+            }
 
             //Get playerHandedness
             userChoice = GetThreeOptionInput("Ok " + playerName + " what is your dominant hand?", "Left Handed", "Right Handed", "Ambidexterous");
@@ -251,12 +262,12 @@ namespace HelloDungeon
                 playerPotions = 10;
                 playerMaxPotions = 10;
             }
-            
-            //Subtract player damage by 1 if they are Ambidexterious 
-            if (playerHandedness == ("Ambidexterous"))
+            if (playerName == "drew" || playerName == "Drew" || playerName == "funderburk" || playerName == "Funderburk")
             {
-                playerDamage -= 1;
-                playerMaxDamage -= 1;
+                Console.WriteLine("No bonus stats for you lmao");
+                Console.WriteLine("Trolled");
+                Console.WriteLine("But you can go enter ALLNAMES (has to be all caps) to show all the special names (Or you can go check them out in the code...)");
+                Console.ReadKey();
             }
         }
         
