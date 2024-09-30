@@ -8,8 +8,6 @@ namespace HelloDungeon
 {
     internal class CorridorScenario
     {
-        public static bool tookTorch;
-        public static bool returned;
 
         public void Run()
         {

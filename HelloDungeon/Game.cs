@@ -96,7 +96,6 @@ namespace HelloDungeon
         //Make a function that fakes a really messed up crash
         static void FakeCrash()
         {
-            bool fakeCrashing = true;
             for (int i = 0; i < 3; i++)
             {
                 Console.WriteLine("\\C:\\Users\\" + playerName + "\\Desktop\\HelloDungeon\\HelloDungeon\\bin\\Debug\\net8.0\\HelloDungeon.exe (process 666) exited with code N/A.");
@@ -1102,7 +1101,6 @@ namespace HelloDungeon
                     }
                 }
                 return numberInput;
-                Console.Clear();
             }
 
             //Get the players name
