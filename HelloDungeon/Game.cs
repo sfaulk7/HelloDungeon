@@ -212,7 +212,7 @@ namespace HelloDungeon
             }
 
             //Get playerHandedness
-            userChoice = GetThreeOptionInput("Ok " + playerName + " what is your dominant hand?", "Left Handed", "Right Handed", "Ambidexterous");
+            userChoice = GetInput("Ok " + playerName + " what is your dominant hand?", "Left Handed", "Right Handed", "Ambidexterous");
             //Set player handedness to left
             if (userChoice == 1)
             {
@@ -271,7 +271,7 @@ namespace HelloDungeon
         }
         
         //Make a function for a two choice option
-        public static int GetTwoOptionInput(string description, string option1, string option2)
+        public static int GetInput(string description, string option1, string option2)
         {
             string input = "";
             int inputRecieved = 0;
@@ -315,7 +315,7 @@ namespace HelloDungeon
             return inputRecieved;
         }
         //Make a function for a three choice option
-        public static int GetThreeOptionInput(string description, string option1, string option2, string option3)
+        public static int GetInput(string description, string option1, string option2, string option3)
         {
             string input = "";
             int inputRecieved = 0;
@@ -409,7 +409,7 @@ namespace HelloDungeon
 
                 DisplayEnemyStats(Attacked);
 
-                userChoice = GetThreeOptionInput("What would you like to do?", "1.Sword Swing", "2.Magic Missle x2DMG(10Mana)", "3.Healing Potion(25% Max Health)");
+                userChoice = GetInput("What would you like to do?", "1.Sword Swing", "2.Magic Missle x2DMG(10Mana)", "3.Healing Potion(25% Max Health)");
                 //Player attacks with Sword Swing
                 if (userChoice == 1)
                 {
@@ -614,7 +614,7 @@ namespace HelloDungeon
 
                 DisplayEnemyStats(Attacked);
 
-                userChoice = GetThreeOptionInput("What would you like to do?", "1.Sword Swing", "2.Magic Missle x2DMG(10Mana)", "3.Healing Potion(25% Max Health)");
+                userChoice = GetInput("What would you like to do?", "1.Sword Swing", "2.Magic Missle x2DMG(10Mana)", "3.Healing Potion(25% Max Health)");
                 //Player attacks with Sword Swing
                 if (userChoice == 1)
                 {
@@ -726,7 +726,7 @@ namespace HelloDungeon
                 /// </summary>
                 if (Badguy1.Health > 0 && Badguy2.Health > 0)
                 {
-                    userChoice = GetTwoOptionInput("Who would you like to attack?", "1. " + Badguy1.Name, "2. " + Badguy2.Name);
+                    userChoice = GetInput("Who would you like to attack?", "1. " + Badguy1.Name, "2. " + Badguy2.Name);
                 }
                 //If the player attacks enemy1
                 if (userChoice == 1 || Badguy2.Health <= 0)
@@ -865,7 +865,7 @@ namespace HelloDungeon
 
                 DisplayEnemyStats(Attacked);
 
-                userChoice = GetThreeOptionInput("What would you like to do?", "1.Sword Swing", "2.Magic Missle x2DMG(10Mana)", "3.Healing Potion(25% Max Health)");
+                userChoice = GetInput("What would you like to do?", "1.Sword Swing", "2.Magic Missle x2DMG(10Mana)", "3.Healing Potion(25% Max Health)");
                 //Player attacks with Sword Swing
                 if (userChoice == 1)
                 {
@@ -1109,7 +1109,7 @@ namespace HelloDungeon
             Console.Clear();
 
             //Get playerHandedness
-            userChoice = GetThreeOptionInput("Ok " + playerName + " what is your dominant hand?", "Left Handed", "Right Handed", "Ambidexterous");
+            userChoice = GetInput("Ok " + playerName + " what is your dominant hand?", "Left Handed", "Right Handed", "Ambidexterous");
             //Set player handedness to left
             if (userChoice == 1)
             {
@@ -1280,7 +1280,7 @@ namespace HelloDungeon
                     //Corridor or Statue Area
                     Game.DisplayPlayerStats();
                     Console.WriteLine(Game.playerName + ", you find yourself plundering an unexplored dungeon");
-                    Game.userChoice = GetTwoOptionInput("Do you approach the ominous dark corridor or the odd statue guarding a door?", "Corridor", "Statue");
+                    Game.userChoice = GetInput("Do you approach the ominous dark corridor or the odd statue guarding a door?", "Corridor", "Statue");
                     if (Game.userChoice == 1)
                     {
                         CorridorScenario corridorScenario = new CorridorScenario();
@@ -1316,7 +1316,7 @@ namespace HelloDungeon
                     Console.WriteLine("A chest appears in front of you");
                     Console.WriteLine("It looks like its been through a lot");
                     Console.WriteLine("Stabs and scratches all over, the goblins must have tryed to pry it open");
-                    userChoice = GetTwoOptionInput("Open it?", "1. Open", "2. Don't Open");
+                    userChoice = GetInput("Open it?", "1. Open", "2. Don't Open");
                     //If the player opens the chest (its a mimic lol)
                     if (userChoice == 1)
                     {
@@ -1349,7 +1349,7 @@ namespace HelloDungeon
                     Console.ReadLine();
                     Game.DisplayPlayerStats();
                     Console.WriteLine(Game.playerName + ", you find yourself plundering an unexplored dungeon... again");
-                    Game.userChoice = GetTwoOptionInput("Do you approach the ominous dark corridor or the odd statue guarding a door?", "Corridor", "Statue");
+                    Game.userChoice = GetInput("Do you approach the ominous dark corridor or the odd statue guarding a door?", "Corridor", "Statue");
                     if (Game.userChoice == 1)
                     {
                         CorridorScenario corridorScenario = new CorridorScenario();
@@ -1385,7 +1385,7 @@ namespace HelloDungeon
                         Console.WriteLine("A chest appears in front of you");
                         Console.WriteLine("It looks like its been through a lot");
                         Console.WriteLine("Stabs and scratches all over, the goblins must have tryed to pry it open");
-                        userChoice = GetTwoOptionInput("Open it?", "1. Open", "2. Don't Open");
+                        userChoice = GetInput("Open it?", "1. Open", "2. Don't Open");
                         //If the player opens the chest (its a mimic lol)
                         if (userChoice == 1)
                         {
@@ -1411,7 +1411,7 @@ namespace HelloDungeon
                 //If player dies give option to reset game
                 if (Game.playerIsDead == true)
                 {
-                    Game.userChoice = GetTwoOptionInput("Would you like to restart?", "Yes", "No");
+                    Game.userChoice = GetInput("Would you like to restart?", "Yes", "No");
                     if (Game.userChoice == 1)
                     {
                         Game.DefinePlayerStats();
@@ -1439,7 +1439,7 @@ namespace HelloDungeon
                 if (gameOver == true)
                 {
                     Console.WriteLine("GAME END");
-                    Game.userChoice = GetTwoOptionInput("Would you like to play again? (There is a NG+ lmao)", "Yes", "No");
+                    Game.userChoice = GetInput("Would you like to play again? (There is a NG+ lmao)", "Yes", "No");
                     if (Game.userChoice == 1)
                     {
                         playerOnNGPlus = true;
